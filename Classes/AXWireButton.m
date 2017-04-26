@@ -42,6 +42,11 @@
   [self updateDisplayWithTint:NO];
 }
 
+- (CGSize)intrinsicContentSize {
+    CGSize tempSize = [super intrinsicContentSize];
+    return CGSizeMake(tempSize.width + 16, tempSize.height);
+}
+
 - (UIColor *)backgroundColor {
   return _axWireButtonbackgroundColor;
 }
@@ -116,6 +121,16 @@
     default:
       break;
   }
+}
+
+- (void)handleControlEvent:(UIControlEvents)event withBlock:(EmptyBlock)block {
+    objc_setAssociatedObject(self, &UIButtonBlockKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    [self addTarget:self action:@selector(callBlock:) forControlEvents:event];
+}
+
+- (void)callBlock:(id)sender {
+    EmptyBlock block = (EmptyBlock)objc_getAssociatedObject(self, &UIButtonBlockKey);
+    if (block) block();
 }
 
 @end
