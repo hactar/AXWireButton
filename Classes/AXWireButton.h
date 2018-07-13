@@ -11,7 +11,7 @@ typedef enum : NSUInteger {
   AXWireButtonHighlightStyleFilled,
 } AXWireButtonHighlightStyle;
 
-typedef void (^EmptyBlock)();
+typedef void (^EmptyBlock)(void);
 static char UIButtonBlockKey;
 
 @interface AXWireButton : UIButton
